@@ -6,7 +6,7 @@ import java.util.Scanner;
 import dao.BankAccountDao;
 import dao.ReportDao;
 import dto.Transaction;
-import service.parser.ConsoleParser;
+import service.parser.CSVParser;
 import service.parser.Parser;
 
 public class App {
@@ -27,21 +27,20 @@ public class App {
 		System.out.println("THE END");
 	}
 
-	private static void generateReports(List<Transaction> allTransactions, List<Transaction> subList) {
-		subList.forEach(tr -> AccountsService.processTransaction(tr));
-		ReportService.generateReports(subList);
+	private static void generateReports(List<Transaction> allTransactions, List<Transaction> transactionForReports) {
+		transactionForReports.forEach(tr -> AccountsService.processTransaction(tr));
+		ReportService.generateReports(transactionForReports);
 		ReportService.printReports();
-		allTransactions.removeAll(subList);
+		allTransactions.removeAll(transactionForReports);
 		ReportDao.clearReports();
 	}
 
 	private static List<Transaction> getTransactions() {
 		Scanner scanner = new Scanner(System.in);
 		String fileLocation = scanner.nextLine().trim();
-		Parser parser = new ConsoleParser(";");
-		List<Transaction> transactions = parser.getTransactions(fileLocation);
 		scanner.close();
-		return transactions;
+		Parser parser = new CSVParser(";");
+		return parser.getTransactions(fileLocation);
 	}
 
 	private static void welcomeUser() {

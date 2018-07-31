@@ -9,11 +9,11 @@ import java.util.List;
 
 import dto.Transaction;
 
-public class ConsoleParser implements Parser {
+public class CSVParser implements Parser {
 
 	private String cvsSplitBy;
 
-	public ConsoleParser(String cvsSplitBy) {
+	public CSVParser(String cvsSplitBy) {
 		this.cvsSplitBy = cvsSplitBy;
 	}
 
